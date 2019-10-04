@@ -1,3 +1,23 @@
+<?php
+ob_start();
+session_start();
+include'include/connect_database.php';
+if(isset($_POST['login'])){
+  $name=$_POST['username'];
+  $psw=$_POST['pass'];
+  if(!empty($name) && !empty($psw)){
+    $check="SELECT * FROM user WHERE name='$name' AND psw='$psw'";
+    $run=mysqli_query($connect,$check);
+    $check_run=mysqli_num_rows($run);
+    if($check_run==1){
+    $_SESSION['user']=$username;
+    header('location:index.php');
+    }
+  }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +52,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-50 p-b-90">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form method="post" action="login.php" class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-51">
 						Login
 					</span>
@@ -63,14 +83,14 @@
 							</a>
 						</div> -->
 						<div>
-							<a href="register.html" class="txt1">
+							<a href="register.php" class="txt1">
 								Register Here!
 							</a>
 						</div>
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
+						<button name="login" class="login100-form-btn">
 							Login
 						</button>
 					</div>
